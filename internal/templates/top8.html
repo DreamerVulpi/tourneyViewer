@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../../config/viewer.css">
+        <title> {{.title}} </title>
+    </head>
+    <body>
+        <div class="top_bracket">
+            {{ range $winners := .winners }}
+            <div class="round">
+                <p> {{$winners.RoundName}}</p>
+                <div class="set">
+                    <div class="player1"> 
+                        {{$winners.Player1}}
+                        <div class="player1_score">
+                            {{$winners.Player1_score}}
+                        </div>
+                    </div>
+                    <div class="player2"> 
+                        {{$winners.Player2}}
+                        <div class="player2_score">
+                            {{$winners.Player2_score}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+        <div class="down_bracket">
+            {{ range $losers := .losers }}
+            <div class="round">
+                <p> {{$losers.RoundName}}</p>
+                <div class="set">
+                    <div class="player1"> 
+                        {{$losers.Player1}}
+                        <div class="player1_score">
+                            {{$losers.Player1_score}}
+                        </div>
+                    </div>
+                    <div class="player2"> 
+                        {{$losers.Player2}}
+                        <div class="player2_score">
+                            {{$losers.Player2_score}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </body>
+</html>
