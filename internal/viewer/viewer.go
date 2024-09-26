@@ -2,7 +2,6 @@ package viewer
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"math"
 	"net/http"
@@ -15,6 +14,8 @@ import (
 type Viewer struct {
 	Client       *startgg.Client
 	PhaseGroupId int64
+	Winners      []Round
+	Losers       []Round
 }
 
 type Round struct {
@@ -36,85 +37,90 @@ func getScore(displayScore, garbage string) string {
 
 func (v *Viewer) prepareData() ([]map[int]Round, error) {
 	log.Println(v.PhaseGroupId)
-	state, err := v.Client.GetPhaseGroupState(v.PhaseGroupId)
-	if err != nil {
-		return nil, err
-	}
 
 	result := []map[int]Round{}
 
 	winners := map[int]Round{}
 	losers := map[int]Round{}
 
-	// Realise: Change to InProgress
-	if state == startgg.IsDone {
-		// Realise: Change query to 1
-		total, err := v.Client.GetPagesCount(v.PhaseGroupId)
+	total, err := v.Client.GetPagesCount(v.PhaseGroupId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pages int
+	if total <= 60 {
+		pages = 1
+	} else {
+		pages = int(math.Round(float64(total / 60)))
+	}
+
+	for i := 0; i < pages; i++ {
+		sets, err := v.getBracket(pages, 60)
 		if err != nil {
-			return nil, err
+			log.Println(errors.New("error get sets"))
 		}
-		if total == 0 {
-			return nil, fmt.Errorf("prepareData: total count = 0")
-		}
-
-		var pages int
-		if total <= 60 {
-			pages = 1
-		} else {
-			pages = int(math.Round(float64(total / 60)))
-		}
-
-		for i := 0; i < pages; i++ {
-			sets, err := v.getBracket(pages, 60)
-			if err != nil {
-				log.Println(errors.New("error get sets"))
+		for _, node := range sets {
+			// prepare data set
+			var p1 string
+			var player1_score string
+			if node.Slots[0].Entrant != nil {
+				p1 = node.Slots[0].Entrant.Participants[0].GamerTag
+				player1_score = getScore(node.DisplayScore, node.Slots[0].Entrant.Name)
+			} else {
+				p1 = "1"
+				player1_score = "1"
+			}
+			var p2 string
+			var player2_score string
+			if node.Slots[1].Entrant != nil {
+				p2 = node.Slots[1].Entrant.Participants[0].GamerTag
+				player2_score = getScore(node.DisplayScore, node.Slots[1].Entrant.Name)
+			} else {
+				p2 = "1"
+				player2_score = "1"
 			}
 
-			for _, node := range sets {
-				// prepare data set
-				player1_score := getScore(node.DisplayScore, node.Slots[0].Entrant.Name)
-				player2_score := getScore(node.DisplayScore, node.Slots[1].Entrant.Name)
-				set := Set{
-					State:         node.State,
-					Player1:       node.Slots[0].Entrant.Participants[0].GamerTag,
-					Player2:       node.Slots[1].Entrant.Participants[0].GamerTag,
-					Player1_score: player1_score,
-					Player2_score: player2_score,
-				}
+			set := Set{
+				State:         node.State,
+				Player1:       p1,
+				Player2:       p2,
+				Player1_score: player1_score,
+				Player2_score: player2_score,
+			}
 
-				if node.Round > 0 {
-					// save set to winners bracket
-					value, ok := winners[node.Round]
-					if !ok {
-						round := Round{
-							Name: node.FullRoundText,
-							Sets: []Set{
-								set,
-							},
-						}
-						winners[node.Round] = round
-					} else {
-						value.Sets = append(value.Sets, set)
-						winners[node.Round] = value
+			if node.Round > 0 {
+				// save set to winners bracket
+				value, ok := winners[node.Round]
+				if !ok {
+					round := Round{
+						Name: node.FullRoundText,
+						Sets: []Set{
+							set,
+						},
 					}
+					winners[node.Round] = round
 				} else {
-					// save set to losers bracket
-					value, ok := losers[node.Round]
-					if !ok {
-						round := Round{
-							Name: node.FullRoundText,
-							Sets: []Set{
-								set,
-							},
-						}
-						losers[node.Round] = round
-						log.Printf("CREATE | %v !! %v", node.Round, set)
-					} else {
-						log.Printf("APPEND | %v -> %v", node.Round, set)
-						value.Sets = append(value.Sets, set)
-						losers[node.Round] = value
-						log.Printf("VIEW | %v", value.Sets)
+					value.Sets = append(value.Sets, set)
+					winners[node.Round] = value
+				}
+			} else {
+				// save set to losers bracket
+				value, ok := losers[node.Round]
+				if !ok {
+					round := Round{
+						Name: node.FullRoundText,
+						Sets: []Set{
+							set,
+						},
 					}
+					losers[node.Round] = round
+					log.Printf("CREATE | %v !! %v", node.Round, set)
+				} else {
+					log.Printf("APPEND | %v -> %v", node.Round, set)
+					value.Sets = append(value.Sets, set)
+					losers[node.Round] = value
+					log.Printf("VIEW | %v", value.Sets)
 				}
 			}
 		}
@@ -122,6 +128,26 @@ func (v *Viewer) prepareData() ([]map[int]Round, error) {
 	result = append(result, winners)
 	result = append(result, losers)
 	return result, nil
+}
+
+func (v *Viewer) ProcessUpdate() error {
+	brackets, err := v.prepareData()
+	if err != nil {
+		return err
+	}
+	// map -> slice for html
+	winners := []Round{}
+	for _, value := range brackets[0] {
+		winners = append(winners, value)
+	}
+	losers := []Round{}
+	for _, value := range brackets[1] {
+		losers = append(losers, value)
+	}
+
+	v.Winners = winners
+	v.Losers = losers
+	return nil
 }
 
 func (v *Viewer) Run() error {
@@ -139,6 +165,9 @@ func (v *Viewer) Run() error {
 		losers = append(losers, value)
 	}
 
+	v.Winners = winners
+	v.Losers = losers
+
 	r := gin.Default()
 	r.LoadHTMLGlob("internal/templates/*")
 	r.Static("/config", "config")
@@ -154,8 +183,8 @@ func (v *Viewer) Run() error {
 			"top8.html",
 			gin.H{
 				"title":   "Top8",
-				"winners": winners,
-				"losers":  losers,
+				"winners": v.Winners,
+				"losers":  v.Losers,
 			},
 		)
 	})

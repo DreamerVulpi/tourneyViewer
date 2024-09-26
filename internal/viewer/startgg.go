@@ -43,7 +43,7 @@ type Nodes struct {
 
 // Slots in set
 type Slots struct {
-	Entrant Entrant `json:"entrant"`
+	Entrant *Entrant `json:"entrant"`
 }
 
 // Player in tournament
@@ -65,7 +65,6 @@ const getSets = `
 				page: $page
 				perPage: $perPage
 				sortType: STANDARD
-				filters: {state: 3}
 			){
 				pageInfo{
 					total
