@@ -90,7 +90,7 @@ TourneyViewer - это проект для организаторов турни
     https://www.start.gg/tournament/wild-hunters-1/event/main-online-crossplatform-event/brackets/1724283/2562131
     
     идентификатор(id) турнирной сетки -> 2562131
-    ```.
+    ```
 1. Скачайте готовую сборку и создайте папку ``config'' в директории.
 
     * Создайте файл ``config.toml''
