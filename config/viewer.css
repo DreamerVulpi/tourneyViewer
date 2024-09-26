@@ -1,43 +1,87 @@
 body, html {
     height: 100%;
     margin: 0;
+    background-image: url("jin.webp");
+    background-size: cover;
 }
 
-.set {
-    background-color: red;
+.page {
+    margin: 24px;
+    display: flex;
+    flex-direction: column;
 }
+
 
 .top_bracket {
+    display: flex;
+    flex-direction: row-reverse;
     border-color: black;
 }
 
 .down_bracket {
+    display: flex;
+    flex-direction: row-reverse;
     border-color: grey;
 }
 
 .round {
     background-color: white;
+    /* width: 10%; */
+    display: inline-block;
+    margin: 10px;
 }
 
-round.p {
-    color: black;
+.round p {
+    font-size: 20px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 .player1 {
-    background-color: blueviolet;
-    font-size: 32px;
+    display: flex;
+    flex-direction: row;
 }
 
 .player2 {
-    background-color: blue;
-    font-size: 32px;
-    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: row;
+}
+
+.set * {
+    font-size: 20px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.set {
+    background-color: red;
+    font-size: 20px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 2px solid black;
+}
+
+.nickname1 {
+    background-color: rgb(158, 2, 2);
+    padding-left: 8px;
+    font-size: 16px;
+    flex: 1 1 auto;
+    white-space: no-wrap;
+    border: 2px solid black;
 }
 
 .player1_score {
     background-color: yellow;
 }
 
+.nickname2 {
+    background-color: rgb(158, 2, 2);
+    padding-left: 8px;
+    font-size: 16px;
+    flex: 1 1 auto;
+    white-space: no-wrap;
+    border: 2px solid black;
+}
+
+
 .player2_score {
+    display: inline-block;
     background-color: aqua;
 }

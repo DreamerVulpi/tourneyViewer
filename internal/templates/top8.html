@@ -6,47 +6,61 @@
         <title> {{.title}} </title>
     </head>
     <body>
-        <div class="top_bracket">
-            {{ range $winners := .winners }}
-            <div class="round">
-                <p> {{$winners.RoundName}}</p>
-                <div class="set">
-                    <div class="player1"> 
-                        {{$winners.Player1}}
-                        <div class="player1_score">
-                            {{$winners.Player1_score}}
+        <div class="page">
+            <div class="top_bracket">
+                {{ range $round := .winners }}
+                <div class="round">
+                    <p> {{$round.Name}}</p>
+                    {{ range $set := $round.Sets }}
+                    <div class="set">
+                        <div class="player1"> 
+                            <div class="nickname1"> 
+                                {{$set.Player1}}  
+                            </div>
+                            <div class="player1_score">
+                                {{$set.Player1_score}}
+                            </div>
+                        </div>
+                        <div class="player2"> 
+                            <div class="nickname2"> 
+                                {{$set.Player2}}
+                            </div>
+                            <div class="player2_score">
+                                {{$set.Player2_score}}
+                            </div>
                         </div>
                     </div>
-                    <div class="player2"> 
-                        {{$winners.Player2}}
-                        <div class="player2_score">
-                            {{$winners.Player2_score}}
-                        </div>
-                    </div>
+                    {{ end }}
                 </div>
+                {{ end }}
             </div>
-            {{ end }}
-        </div>
-        <div class="down_bracket">
-            {{ range $losers := .losers }}
-            <div class="round">
-                <p> {{$losers.RoundName}}</p>
-                <div class="set">
-                    <div class="player1"> 
-                        {{$losers.Player1}}
-                        <div class="player1_score">
-                            {{$losers.Player1_score}}
+            <div class="down_bracket">
+                {{ range $round := .losers }}
+                <div class="round">
+                    <p> {{$round.Name}}</p>
+                    {{ range $set := $round.Sets }}
+                    <div class="set">
+                        <div class="player1"> 
+                            <div class="nickname1"> 
+                                {{$set.Player1}}  
+                            </div>
+                            <div class="player1_score">
+                                {{$set.Player1_score}}
+                            </div>
+                        </div>
+                        <div class="player2"> 
+                            <div class="nickname2"> 
+                                {{$set.Player2}}
+                            </div>
+                            <div class="player2_score">
+                                {{$set.Player2_score}}
+                            </div>
                         </div>
                     </div>
-                    <div class="player2"> 
-                        {{$losers.Player2}}
-                        <div class="player2_score">
-                            {{$losers.Player2_score}}
-                        </div>
-                    </div>
+                    {{ end }}
                 </div>
+                {{ end }}
             </div>
-            {{ end }}
         </div>
     </body>
 </html>
