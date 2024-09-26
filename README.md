@@ -72,7 +72,7 @@ TourneyViewer - это проект для организаторов турни
 
 0. Вам необходимо получить:
    * токен разработчика для startgg; [Как получить?](https://developer.start.gg/docs/authentication/)
-   * ссылку на этапГруппа(скобка) вашего турнира;
+   * ссылку на турнирную сетку вашего турнира;
     ``Например: https://www.start.gg/tournament/wild-hunters-1/event/main-online-crossplatform-event/brackets/1724283/2562131``.
 1. Скачайте готовую сборку и создайте папку ``config'' в директории.
     * Создайте файл ``config.toml''
