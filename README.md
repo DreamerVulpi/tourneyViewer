@@ -1,4 +1,4 @@
-# TourneyViewer
+# TourneyViewer (WIP)
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/DreamerVulpi/tourneyViewer)](https://goreportcard.com/report/github.com/DreamerVulpi/tourneyViewer) [![Russia](https://upload.wikimedia.org/wikipedia/en/thumb/f/f3/Flag_of_Russia.svg/28px-Flag_of_Russia.svg.png)](#русский)
 
@@ -30,14 +30,22 @@ If you want to help the project, suggest ideas and developments in your [pull re
 
 0. You need to get:
    * developer token for startgg; [How get?](https://developer.start.gg/docs/authentication/)
-   * link to the phaseGroup(bracket) of your tournament;
-    ```For example: https://www.start.gg/tournament/wild-hunters-1/event/main-online-crossplatform-event/brackets/1724283/2562131```
+   * id the phaseGroup(bracket) of your tournament;
+
+    ```text
+    For example:
+    https://www.start.gg/tournament/wild-hunters-1/event/main-online-crossplatform-event/brackets/1724283/2562131
+    
+    id the phaseGroup(bracket) -> 2562131
+    ```
+
 1. Download the finished build and create a ```config``` folder in the directory.
+
     * Create file ```config.toml```
     * Copy the template and fill the previously created file with it:
 
     ```toml
-    link = "your link"
+    phaseGroupId = "your id"
     token = "your token"
     ```
 
@@ -66,7 +74,7 @@ TourneyViewer - это проект для организаторов турни
   
 ## Особенности
 
-* Поддержка форматов Single and double elimination;
+* Поддержка форматов Single и double elimination;
 * Обновление виджета раз в 1 минуту;
 
 ## Начало работы
@@ -75,14 +83,21 @@ TourneyViewer - это проект для организаторов турни
 
 0. Вам необходимо получить:
    * токен разработчика для startgg; [Как получить?](https://developer.start.gg/docs/authentication/)
-   * ссылку на турнирную сетку вашего турнира;
-    ``Например: https://www.start.gg/tournament/wild-hunters-1/event/main-online-crossplatform-event/brackets/1724283/2562131``.
+   * идентификатор(id) на турнирную сетку вашего турнира;
+
+    ```text
+    К примеру:
+    https://www.start.gg/tournament/wild-hunters-1/event/main-online-crossplatform-event/brackets/1724283/2562131
+    
+    идентификатор(id) турнирной сетки -> 2562131
+    ```.
 1. Скачайте готовую сборку и создайте папку ``config'' в директории.
+
     * Создайте файл ``config.toml''
     * Скопируйте шаблон и заполните им ранее созданный файл:
 
     ```toml
-    link = "ваша ссылка"
+    phaseGroupId = "ваш id"
     token = "ваш токен"
     ```
 
