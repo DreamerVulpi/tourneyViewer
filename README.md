@@ -17,11 +17,12 @@ If you want to help the project, suggest ideas and developments in your [pull re
 
 ## To be realized in the future
 
-* Update widget every 1 minute;
+* the normal view of the page;
 
 ## Features
 
 * Single and double elimination tournament formats are supported;
+* Update widget every 1 minute;
   
 ## Getting Started
 
@@ -42,6 +43,7 @@ If you want to help the project, suggest ideas and developments in your [pull re
 
 ### Usage
 
+0. Change file ```config/viewer.css``` to custumization bracket;
 1. Start the project;
 2. Go to the website to check ```localhost:7777```
 3. Use the widget anywhere. Enjoy the process!
@@ -60,11 +62,12 @@ TourneyViewer - это проект для организаторов турни
 
 ## Будет реализовано в будущем
 
-* Обновление виджета раз в 1 минуту;
+* нормальный вид страницы;
   
 ## Особенности
 
 * Поддержка форматов Single and double elimination;
+* Обновление виджета раз в 1 минуту;
 
 ## Начало работы
 
@@ -85,6 +88,7 @@ TourneyViewer - это проект для организаторов турни
 
 ### Использование
 
+0. Измените файл ```config/viewer.css``` для кастомизации ветки;
 1. Запустите проект;
 2. Перейдите на сайт, чтобы проверить ```localhost:7777```.
 3. Используйте виджет в любом месте. Наслаждайтесь процессом!
